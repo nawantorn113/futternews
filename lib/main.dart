@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -13,12 +15,14 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         scaffoldBackgroundColor: Colors.lightBlue[50],
       ),
-      home: NewsPage(),
+      home: const NewsPage(),
     );
   }
 }
 
 class NewsPage extends StatefulWidget {
+  const NewsPage({super.key});
+
   @override
   _NewsPageState createState() => _NewsPageState();
 }
@@ -45,34 +49,34 @@ class _NewsPageState extends State<NewsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Tesla News'),
+        title: const Text('Tesla News'),
         backgroundColor: Colors.blue[700],
       ),
       body: FutureBuilder<List<Article>>(
         future: fetchNews(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (snapshot.hasData) {
             if (snapshot.data!.isEmpty) {
-              return Center(child: Text('No data available'));
+              return const Center(child: Text('No data available'));
             }
             return ListView.builder(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index) {
                 Article article = snapshot.data![index];
                 return Card(
                   elevation: 5,
-                  margin: EdgeInsets.only(bottom: 16),
+                  margin: const EdgeInsets.only(bottom: 16),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                     side: BorderSide(color: Colors.blue[300]!, width: 1),
                   ),
                   child: Padding(
-                    padding: EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(16),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -84,13 +88,13 @@ class _NewsPageState extends State<NewsPage> {
                             color: Colors.blue[800],
                           ),
                         ),
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         Text(
                           article.description,
                           style:
                               TextStyle(fontSize: 14, color: Colors.grey[700]),
                         ),
-                        SizedBox(height: 12),
+                        const SizedBox(height: 12),
                         if (article.urlToImage != null)
                           ClipRRect(
                             borderRadius: BorderRadius.circular(8),
@@ -108,7 +112,7 @@ class _NewsPageState extends State<NewsPage> {
               },
             );
           } else {
-            return Center(child: Text('No data available'));
+            return const Center(child: Text('No data available'));
           }
         },
       ),
